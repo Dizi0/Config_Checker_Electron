@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <link href="./bootstrap-grid.min.css" rel="stylesheet">
+  <link href="./bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+
+  <title>Configuration Checker</title>
+</head>
+<body>
+
+<div class="config">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm system">
+        <legend>System Information</legend>
+        <div class="content">
+          <div id="system_model"></div>
+          <div id="system_os">System operating : </div>
+        </div>
+      </div>
+      <div class="col-sm motherboard">
+
+        <legend>Motherboard</legend>
+        <div class="content">
+
+          <span id="motherboard">Model name : </span>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm cpu">
+        <legend>Cpu Information</legend>
+        <div class="content">
+          <span id="cpu">Model name : </span>
+        </div>
+      </div>
+      <div class="col-sm gpu">
+        <legend>GPU Information</legend>
+        <div class="content">
+
+          <div id="gpu0">GPU data </div>
+          <div id="gpu1"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm ram">
+        <legend>Ram Information</legend>
+        <div class="content">
+
+          <span>Total Ram : <span id="totalram"></span> </span>
+          <div class="ramunit">
+
+            <div id="ram0"> </div>
+            <div id="ram1"> </div>
+            <div id="ram3"> </div>
+            <div id="ram4"> </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm battery">
+        <div class="battery">
+          <legend>Battery Information</legend>
+          <div class="content">
+
+            <div id="battery_cap">Battery capacity : </div>
+            <div id="battery_percent">Battery percentage : </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm disk">
+        <legend>Disk Information</legend>
+        <div class="content">
+          <div id="disk0"></div>
+          <div id="disk1"></div>
+          <div id="disk2"></div>
+          <div id="disk3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="./renderer.js"></script>
+</body>
+</html>

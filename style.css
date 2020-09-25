@@ -1,0 +1,23 @@
+body{
+    font-family : sans-serif;
+    background: #212121;
+    color: #FAFAFA;
+}
+.config{
+    margin-top: 2%;
+    display:block;
+    position: relative;
+}
+legend{
+    background: #343434;
+}
+.content {
+    padding: 10px;
+}
+.col-sm {
+    background: #3f3f3f;
+    color: white;
+    padding: 0;
+    margin: 10px;
+    text-align: center;
+}
