@@ -1,100 +1,134 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-  <link href="./bootstrap-grid.min.css" rel="stylesheet">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./bootstrap.min.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
-
-  <title>Configuration Checker</title>
+  <title>System Config Checker</title>
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #f0f0f0;
+      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .section {
+      background: #2c2c3e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      height: 100%;
+    }
+    .section h2 {
+      font-size: 1.25rem;
+      border-bottom: 1px solid #444;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    .blurred-ip {
+      filter: blur(5px);
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .blurred-ip:hover {
+      filter: none;
+    }
+    .data-item {
+      margin-bottom: 5px;
+    }
+    #exportBtn {
+      margin-top: 20px;
+    }
+    #loading-spinner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #1e1e2f;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      display: none;
+    }
+    .col-md-6 {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
+<div id="loading-spinner">
+  <div class="spinner-border text-light" role="status">
+    <span class="visually-hidden"></span>
+  </div>
+</div>
 
-<div class="config">
+<div class="container">
+  <h1 class="mb-4">🔍 System Configuration Checker</h1>
 
-  <div class="container">
-
-    <div class="row">
-      <div class="col-sm system">
-        <legend>System Information</legend>
-        <div class="content">
-          <div id="system_model"></div>
-          <div id="system_os">System operating : </div>
-        </div>
-      </div>
-      <div class="col-sm motherboard">
-
-        <legend>Motherboard</legend>
-        <div class="content">
-
-          <span id="motherboard">Model name : </span>
-
-        </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-4">
+      <div class="section">
+        <h2>🖥️ System</h2>
+        <div class="data-item" id="system_model"></div>
+        <div class="data-item" id="system_os"></div>
+        <div class="data-item" id="motherboard"></div>
+        <div class="data-item" id="battery"></div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-sm cpu">
-        <legend>Cpu Information</legend>
-        <div class="content">
-          <span id="cpu">Model name : </span>
-        </div>
-      </div>
-      <div class="col-sm gpu">
-        <legend>GPU Information</legend>
-        <div class="content">
-
-          <div id="gpu0">GPU data </div>
-          <div id="gpu1"></div>
-        </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="section">
+        <h2>⚙️ CPU</h2>
+        <div id="cpu_infos"></div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-sm ram">
-        <legend>Ram Information</legend>
-        <div class="content">
-
-          <span>Total Ram : <span id="totalram"></span> </span>
-          <div class="ramunit">
-
-            <div id="ram0"> </div>
-            <div id="ram1"> </div>
-            <div id="ram3"> </div>
-            <div id="ram4"> </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm battery">
-        <div class="battery">
-          <legend>Battery Information</legend>
-          <div class="content">
-
-            <div id="battery_cap">Battery capacity : </div>
-            <div id="battery_percent">Battery percentage : </div>
-          </div>
-
-        </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="section">
+        <h2>🧠 RAM</h2>
+        <div class="data-item">Used / Total: <span id="totalram"></span></div>
+        <div id="ram_list"></div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-sm disk">
-        <legend>Disk Information</legend>
-        <div class="content">
-          <div id="disk0"></div>
-          <div id="disk1"></div>
-          <div id="disk2"></div>
-          <div id="disk3"></div>
-        </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="section">
+        <h2>🎮 GPU</h2>
+        <div id="gpu_list"></div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="section">
+        <h2>💾 Disks</h2>
+        <div id="disk_list"></div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="section">
+        <h2>🌐 Network</h2>
+        <div id="ip_addresses"></div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="section">
+        <h2>⏱️ Uptime & Install Date</h2>
+        <div class="data-item">Uptime: <span id="uptime"></span></div>
+        <div class="data-item">Installed: <span id="install_date"></span></div>
       </div>
     </div>
   </div>
 
+  <div class="text-center">
+    <button class="btn btn-success" id="exportBtn">📄 Export JSON</button>
+  </div>
 </div>
 
 <script src="./renderer.js"></script>
